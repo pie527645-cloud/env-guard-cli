@@ -99,6 +99,10 @@ node dist/mcp.js --root /path/to/project
 2. `check_env_drift(subpath?)`: Returns missing, unused, undocumented, and redacted secret-hygiene findings (`***`).
 3. `validate_env_schema(schemaPath?)`: Validates workspace environment variables against `.env.schema.json` rules without returning secret values.
 
+#### Security Audit Note (MCP104)
+
+`list_env_keys` inspects `.env` presence flags by design while enforcing strict non-disclosure (it returns only key names, presence booleans, and bucketed mask lengths, never raw values). When auditing `env-guard` with `@pie527645-cloud/mcp-doctor`, `list_env_keys` produces 1 expected `MCP104` (`critical`) finding for referencing `.env` in its tool description, while `validate_env_schema` references to `.env.schema.json` report as `info`.
+
 ## `.env.schema.json` Example
 
 ```json
