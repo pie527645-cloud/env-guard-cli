@@ -1,0 +1,51 @@
+{
+  "name": "@pie527645-cloud/env-guard-cli",
+  "version": "1.0.0",
+  "description": "Spec-compliant zero-dependency .env parser, polyglot code drift scanner, secret hygiene guard, and secret-safe MCP server.",
+  "type": "module",
+  "license": "MIT",
+  "author": "pie527645-cloud",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pie527645-cloud/env-guard-cli.git"
+  },
+  "homepage": "https://github.com/pie527645-cloud/env-guard-cli#readme",
+  "bugs": {
+    "url": "https://github.com/pie527645-cloud/env-guard-cli/issues"
+  },
+  "engines": {
+    "node": ">=20.18.1"
+  },
+  "bin": {
+    "env-guard": "./dist/cli.js",
+    "env-guard-mcp": "./dist/mcp.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./cli": "./dist/cli.js",
+    "./mcp": "./dist/mcp.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json && tsc -p tsconfig.test.json",
+    "test": "node --test dist-test/tests/parser.test.js dist-test/tests/scanner.test.js dist-test/tests/schema.test.js dist-test/tests/check-sync.test.js dist-test/tests/cli.test.js dist-test/tests/mcp.test.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.19",
+    "typescript": "^5.7.3"
+  }
+}
