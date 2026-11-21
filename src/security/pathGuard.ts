@@ -108,6 +108,14 @@ export function resolveContainedPath(canonicalRoot: string, targetSubpath: strin
     }
   }
 
+  // Reject Windows-style backslash parent traversal consistently on POSIX hosts as well
+  if (process.platform !== 'win32' && targetSubpath.includes('\\')) {
+    const posixCheck = path.posix.normalize(targetSubpath.split('\\').join('/'));
+    if (posixCheck === '..' || posixCheck.startsWith('../') || posixCheck.startsWith('/')) {
+      throw new PathSecurityError('Path escapes workspace root boundary.', 'PATH_TRAVERSAL_BLOCKED');
+    }
+  }
+
   const candidate = path.resolve(canonicalRoot, targetSubpath || '.');
   if (!isWithinRoot(canonicalRoot, candidate)) {
     throw new PathSecurityError('Path escapes workspace root boundary.', 'PATH_TRAVERSAL_BLOCKED');
